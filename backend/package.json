@@ -1,0 +1,27 @@
+{
+    "name": "anybooker-backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start:prod": "node dist/index.js",
+        "start:dev": "ts-node-dev --no-deps --respawn --poll --interval 1000 src/index.ts",
+        "build": "tsc -p ."
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@marblejs/core": "^2.1.1",
+        "@marblejs/middleware-body": "^2.1.1",
+        "@marblejs/middleware-io": "^2.1.1",
+        "rxjs": "^6.5.2"
+    },
+    "devDependencies": {
+        "prettier": "^1.17.1",
+        "ts-node-dev": "^1.0.0-pre.39",
+        "tslint": "^5.16.0",
+        "tslint-config-prettier": "^1.18.0",
+        "tslint-immutable": "^5.5.2",
+        "typescript": "^3.4.5"
+    }
+}

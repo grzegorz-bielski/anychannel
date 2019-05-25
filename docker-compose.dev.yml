@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+  backend:
+    build:
+      dockerfile: dev.Dockerfile
+      context: ./backend
+    volumes:
+      - ./backend:/backend:delegated
+      - /backend/node_modules
+
+  frontend:
+    build:
+      dockerfile: dev.Dockerfile
+      context: ./frontend
+    volumes:
+      - ./frontend:/frontend:delegated
+      - /frontend/node_modules

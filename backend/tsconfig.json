@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "commonjs",
+        "strict": true,
+        "pretty": true,
+        "importHelpers": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "baseUrl": "./src",
+        "outDir": "./dist/",
+        "paths": {
+            "@/*": ["src/*"]
+        },
+        "lib": ["esnext"]
+    }
+}
