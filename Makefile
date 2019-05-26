@@ -13,12 +13,12 @@ build-staging:
 .PHONY: dev
 dev:
 	docker-compose $(dev-dockerfile) down
-	docker-compose $(dev-dockerfile) up
+	docker-compose $(dev-dockerfile) up 
 
 .PHONY: staging
 staging:
 	docker-compose $(staging-dockerfile) down
-	docker-compose $(staging-dockerfile) up
+	docker-compose $(staging-dockerfile) up --force-recreate
 
 .PHONY: reset
 reset:

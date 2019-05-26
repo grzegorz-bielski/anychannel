@@ -2,25 +2,47 @@ version: "3.7"
 services:
   nginx:
     container_name: nginx
+    env_file:
+      - .env
     restart: unless-stopped
     build:
       context: ./nginx
     ports:
-      - "3030:80"
+      - $HOSTPORT:80
     depends_on:
       - frontend
       - backend
 
+  database:
+    container_name: database
+    env_file:
+      - .env
+    image: postgres
+    restart: unless-stopped
+    volumes:
+      - database_volume:/var/lib/postgresql/data
+
   backend:
     container_name: backend
+    env_file:
+      - .env
     restart: unless-stopped
     build:
       dockerfile: Dockerfile
       context: ./backend
+    depends_on:
+      - database
+    environment:
+      - NODE_ENV=prod
 
   frontend:
     container_name: frontend
+    env_file:
+      - .env
     restart: unless-stopped
     build:
       dockerfile: Dockerfile
       context: ./frontend
+
+volumes:
+  database_volume:

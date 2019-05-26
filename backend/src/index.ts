@@ -1,36 +1,53 @@
+import 'reflect-metadata';
+import { createConnection, Connection, getRepository } from 'typeorm';
+import { User } from './entity/User';
 import {
     createServer,
     httpListener,
     HttpEffect,
     combineRoutes,
-    EffectFactory,
-    HttpResponse,
     r,
+    createContextToken,
     reader,
+    bindTo,
 } from '@marblejs/core';
-import { mapTo } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { mergeMap, map, mapTo } from 'rxjs/operators';
 
-const helloEffect$: HttpEffect = req$ =>
-    req$.pipe(mapTo({ body: JSON.stringify({ res: 'Hello, world!!!!!' }) }));
+const connectionToken = createContextToken<Connection>();
 
-const hello$ = r.pipe(
-    r.matchPath('/'),
-    r.matchType('GET'),
-    r.useEffect(helloEffect$),
-);
+// tslint:disable-next-line:no-unused-expression
+(async () => {
+    const connection = await createConnection();
+    const connectionReader = reader.map(() => connection);
 
-// const hello$ = EffectFactory.matchPath('*')
-//     .matchType('GET')
-//     .use(helloEffect$);
+    const helloEffect$: HttpEffect = (req$, _, { ask }) =>
+        ask(connectionToken)
+            .map(conn => {
+                const userRepository = conn.getRepository(User);
 
-const api$ = combineRoutes('/api', [hello$]);
-const effects = [api$];
+                return req$.pipe(
+                    mergeMap(() => from(userRepository.find())),
+                    map(users => ({ body: JSON.stringify({ res: users }) })),
+                );
+            })
+            .getOrElse(req$.pipe(mapTo({ body: 'err' })));
 
-const port = 8000;
-const server = createServer({
-    port,
-    httpListener: httpListener({ effects }),
-});
+    const hello$ = r.pipe(
+        r.matchPath('/'),
+        r.matchType('GET'),
+        r.useEffect(helloEffect$),
+    );
 
-server.run();
-console.log(`Listening on the port ${port}`);
+    const api$ = combineRoutes('/api', [hello$]);
+    const effects = [api$];
+
+    const port = 8000;
+    const server = createServer({
+        port,
+        httpListener: httpListener({ effects }),
+        dependencies: [bindTo(connectionToken)(connectionReader)],
+    });
+
+    server.run();
+})();

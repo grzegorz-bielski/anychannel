@@ -4,9 +4,14 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start:prod": "node dist/index.js",
-        "start:dev": "ts-node-dev --no-deps --respawn --poll --interval 1000 src/index.ts",
-        "build": "tsc -p ."
+        "start:prod": "node build/index.js",
+        "start:dev": "npm run migration:run && ts-node-dev --no-deps --respawn --poll --interval 1000 src/index.ts",
+        "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+        "migration:generate": "npm run typeorm migration:generate -- -n Migration",
+        "migration:run": "npm run typeorm migration:run",
+        "migration:revert": "npm run typeorm migration:revert",
+        "build": "tsc -p .",
+        "start": "ts-node src/index.ts"
     },
     "author": "",
     "license": "ISC",
@@ -14,7 +19,10 @@
         "@marblejs/core": "^2.1.1",
         "@marblejs/middleware-body": "^2.1.1",
         "@marblejs/middleware-io": "^2.1.1",
-        "rxjs": "^6.5.2"
+        "rxjs": "^6.5.2",
+        "typeorm": "0.2.17",
+        "reflect-metadata": "^0.1.10",
+        "pg": "^7.3.0"
     },
     "devDependencies": {
         "prettier": "^1.17.1",
@@ -22,6 +30,8 @@
         "tslint": "^5.16.0",
         "tslint-config-prettier": "^1.18.0",
         "tslint-immutable": "^5.5.2",
-        "typescript": "^3.4.5"
+        "typescript": "3.3.3333",
+        "ts-node": "3.3.0",
+        "@types/node": "^8.0.29"
     }
 }

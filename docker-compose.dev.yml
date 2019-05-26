@@ -7,6 +7,12 @@ services:
     volumes:
       - ./backend:/backend:delegated
       - /backend/node_modules
+    environment:
+      - NODE_ENV=dev
+
+  database:
+    ports:
+      - "$POSTGRES_PORT:$POSTGRES_PORT"
 
   frontend:
     build:

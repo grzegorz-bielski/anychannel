@@ -20,7 +20,7 @@ const App: React.FC = () => {
         <img src={logo} className="App-logo" alt="logo" />
         <span>{state}</span>
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Edit <code>src/App.tsx</code> and save to reload....
         </p>
         <a
           className="App-link"
