@@ -1,53 +1,46 @@
 import 'reflect-metadata';
-import { createConnection, Connection, getRepository } from 'typeorm';
-import { User } from './entity/User';
+import { createConnection } from 'typeorm';
+import { tap, pluck } from 'rxjs/operators';
 import {
     createServer,
-    httpListener,
-    HttpEffect,
-    combineRoutes,
-    r,
-    createContextToken,
     reader,
     bindTo,
+    matchEvent,
+    ServerEvent,
+    HttpServerEffect,
 } from '@marblejs/core';
-import { from } from 'rxjs';
-import { mergeMap, map, mapTo } from 'rxjs/operators';
 
-const connectionToken = createContextToken<Connection>();
+import { app } from './app';
+import { rootRepositoryFactory } from '@config/rootRepository';
+import { connectionToken, rootRepositoryToken } from '@config/tokens';
 
-// tslint:disable-next-line:no-unused-expression
-(async () => {
-    const connection = await createConnection();
-    const connectionReader = reader.map(() => connection);
-
-    const helloEffect$: HttpEffect = (req$, _, { ask }) =>
-        ask(connectionToken)
-            .map(conn => {
-                const userRepository = conn.getRepository(User);
-
-                return req$.pipe(
-                    mergeMap(() => from(userRepository.find())),
-                    map(users => ({ body: JSON.stringify({ res: users }) })),
-                );
-            })
-            .getOrElse(req$.pipe(mapTo({ body: 'err' })));
-
-    const hello$ = r.pipe(
-        r.matchPath('/'),
-        r.matchType('GET'),
-        r.useEffect(helloEffect$),
+const listening$: HttpServerEffect = event$ =>
+    event$.pipe(
+        matchEvent(ServerEvent.listening),
+        pluck('payload'),
+        tap(({ port, host }) =>
+            // tslint:disable-next-line:no-console
+            console.log(`Running @ http://${host}:${port}/`),
+        ),
     );
 
-    const api$ = combineRoutes('/api', [hello$]);
-    const effects = [api$];
+const bootstrap = async () => {
+    const connection = await createConnection();
+    const connectionReader = reader.map(() => connection);
+    const rootRepositoryReader = reader.map(() => rootRepositoryFactory(connection));
 
-    const port = 8000;
+    const port = Number.parseInt(process.env.NODE_PORT!, 10);
     const server = createServer({
         port,
-        httpListener: httpListener({ effects }),
-        dependencies: [bindTo(connectionToken)(connectionReader)],
+        httpListener: app,
+        event$: listening$,
+        dependencies: [
+            bindTo(connectionToken)(connectionReader),
+            bindTo(rootRepositoryToken)(rootRepositoryReader),
+        ],
     });
 
     server.run();
-})();
+};
+
+bootstrap();

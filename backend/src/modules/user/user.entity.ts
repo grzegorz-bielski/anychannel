@@ -3,20 +3,20 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    public id: number;
+    public id!: number;
 
     @Column()
-    public firstName: string;
+    public firstName!: string;
 
     @Column({ nullable: true })
-    public type: string;
+    public type!: string;
 
     @Column({ default: false })
-    public isCool: boolean;
+    public isCool!: boolean;
 
     @Column()
-    public lastName: string;
+    public lastName!: string;
 
     @Column()
-    public age: number;
+    public age!: number;
 }

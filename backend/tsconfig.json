@@ -1,15 +1,21 @@
 {
-   "compilerOptions": {
-      "lib": [
-         "es5",
-         "es6"
-      ],
-      "target": "es5",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "outDir": "./build",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "sourceMap": true
-   }
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "lib": ["esnext"],
+        "paths": {
+            "@modules/*": ["modules/*"],
+            "@common/*": ["common/*"],
+            "@config/*": ["config/*"]
+        },
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": "./build",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "strict": true
+    }
 }

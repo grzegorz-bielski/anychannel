@@ -4,34 +4,41 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start:prod": "node build/index.js",
-        "start:dev": "npm run migration:run && ts-node-dev --no-deps --respawn --poll --interval 1000 src/index.ts",
+        "start:prod": "node -r ./tsconfig-paths.js build/index.js",
+        "start:dev": "npm run migration:run && ts-node-dev -r tsconfig-paths/register --no-deps --respawn --poll --interval 1000 src/index.ts",
         "typeorm": "ts-node ./node_modules/typeorm/cli.js",
         "migration:generate": "npm run typeorm migration:generate -- -n Migration",
         "migration:run": "npm run typeorm migration:run",
         "migration:revert": "npm run typeorm migration:revert",
         "build": "tsc -p .",
-        "start": "ts-node src/index.ts"
+        "start": "ts-node -r tsconfig-paths/register src/index.ts"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "@marblejs/core": "^2.1.1",
-        "@marblejs/middleware-body": "^2.1.1",
-        "@marblejs/middleware-io": "^2.1.1",
-        "rxjs": "^6.5.2",
-        "typeorm": "0.2.17",
+        "@marblejs/middleware-body": "^2.2.2",
+        "@marblejs/middleware-io": "^2.2.2",
+        "@marblejs/middleware-jwt": "^2.2.2",
+        "@marblejs/middleware-logger": "^2.2.2",
+        "@marblejs/websockets": "^2.2.2",
+        "fp-ts": "^1.18.2",
+        "pg": "^7.3.0",
+        "ramda": "^0.26.1",
         "reflect-metadata": "^0.1.10",
-        "pg": "^7.3.0"
+        "rxjs": "^6.5.2",
+        "tsconfig-paths": "^3.8.0",
+        "typeorm": "0.2.17"
     },
     "devDependencies": {
+        "@types/node": "^8.0.29",
+        "@types/ramda": "^0.26.8",
         "prettier": "^1.17.1",
+        "ts-node": "3.3.0",
         "ts-node-dev": "^1.0.0-pre.39",
         "tslint": "^5.16.0",
         "tslint-config-prettier": "^1.18.0",
         "tslint-immutable": "^5.5.2",
-        "typescript": "3.3.3333",
-        "ts-node": "3.3.0",
-        "@types/node": "^8.0.29"
+        "typescript": "3.3.3333"
     }
 }

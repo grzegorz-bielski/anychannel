@@ -3,22 +3,30 @@ staging-dockerfile = -f docker-compose.staging.yml
 
 .PHONY: build-dev
 build-dev:
-	docker-compose $(dev-dockerfile) build
-	$(MAKE) install-local-dependencies
+	docker-compose $(dev-dockerfile) build --parallel
 
 .PHONY: build-staging
 build-staging:
-	docker-compose $(staging-dockerfile) build
+	docker-compose $(staging-dockerfile) build --parallel
+
+.PHONY: rebuild-dev
+rebuild-dev:
+	docker-compose $(dev-dockerfile) build --no-cache --parallel
 
 .PHONY: dev
 dev:
 	docker-compose $(dev-dockerfile) down
-	docker-compose $(dev-dockerfile) up 
+	docker-compose $(dev-dockerfile) up --remove-orphans
 
 .PHONY: staging
 staging:
 	docker-compose $(staging-dockerfile) down
-	docker-compose $(staging-dockerfile) up --force-recreate
+	docker-compose $(staging-dockerfile) up --remove-orphans --renew-anon-volumes
+
+.PHONY: push
+push:
+	docker-compose $(staging-dockerfile) build --pull
+	docker-compose $(staging-dockerfile) push
 
 .PHONY: reset
 reset:

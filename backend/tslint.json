@@ -16,6 +16,7 @@
         "no-parameter-reassignment": true,
         "typedef": [true, "call-signature"],
         "no-let": true,
+        "member-ordering": false,
         "no-any": true,
         "no-object-mutation": true,
         "no-delete": true,

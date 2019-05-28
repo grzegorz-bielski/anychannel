@@ -1,12 +1,13 @@
 version: "3.7"
 services:
   nginx:
-    container_name: nginx
+    container_name: anybooker_nginx
     env_file:
       - .env
     restart: unless-stopped
     build:
       context: ./nginx
+    image: pesiok/anybooker-nginx
     ports:
       - $HOSTPORT:80
     depends_on:
@@ -23,26 +24,28 @@ services:
       - database_volume:/var/lib/postgresql/data
 
   backend:
-    container_name: backend
+    container_name: anybooker_backend
     env_file:
       - .env
     restart: unless-stopped
     build:
       dockerfile: Dockerfile
       context: ./backend
+    image: pesiok/anybooker-backend
     depends_on:
       - database
     environment:
       - NODE_ENV=prod
 
   frontend:
-    container_name: frontend
+    container_name: anybooker_frontend
     env_file:
       - .env
     restart: unless-stopped
     build:
       dockerfile: Dockerfile
       context: ./frontend
+    image: pesiok/anybooker-frontend
 
 volumes:
   database_volume:
