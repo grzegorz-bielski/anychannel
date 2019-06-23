@@ -1,13 +1,15 @@
-const env = val => process.env[val];
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+
+const env = (val: string) => process.env[val] || '';
 
 const isProd = env('NODE_ENV') === 'prod';
 const extension = isProd ? 'js' : 'ts';
 const folder = isProd ? 'build' : 'src';
 
-module.exports = {
+export const dbConfig: TypeOrmModuleOptions = {
     type: 'postgres',
     host: env('POSTGRES_HOST'),
-    port: env('POSTGRES_PORT'),
+    port: Number.parseInt(env('POSTGRES_PORT'), 10),
     username: env('POSTGRES_USER'),
     password: env('POSTGRES_PASSWORD'),
     database: env('POSTGRES_DB'),
