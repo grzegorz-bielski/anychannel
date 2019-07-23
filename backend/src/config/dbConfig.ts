@@ -8,11 +8,11 @@ const folder = isProd ? 'build' : 'src';
 
 export const dbConfig: TypeOrmModuleOptions = {
     type: 'postgres',
-    host: env('POSTGRES_HOST'),
-    port: Number.parseInt(env('POSTGRES_PORT'), 10),
-    username: env('POSTGRES_USER'),
-    password: env('POSTGRES_PASSWORD'),
-    database: env('POSTGRES_DB'),
+    host: env('PGHOST'),
+    port: Number.parseInt(env('PGPORT'), 10),
+    username: env('PGUSER'),
+    password: env('PGPASSWORD'),
+    database: env('PGDATABASE'),
     synchronize: false,
     migrationsRun: true,
     logging: false,

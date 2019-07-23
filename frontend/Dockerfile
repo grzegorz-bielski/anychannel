@@ -1,6 +1,6 @@
 FROM node:carbon as builder
 
-WORKDIR frontend
+WORKDIR /frontend
 
 COPY package*.json ./
 RUN npm ci

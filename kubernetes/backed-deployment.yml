@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: backend
+          image: pesiok/anychan-backend
+          ports:
+            - containerPort: 8000
+          env:
+          - name: PGDATABASE
+            value: postgres
+          - name: PGUSER
+            value: postgres
+          - name: PGHOST
+            value: postgres-cluster-ip-service
+          - name: PGPORT
+            value: '5412'
+          - name: NODE_PORT 
+            value: '8000'
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
+     

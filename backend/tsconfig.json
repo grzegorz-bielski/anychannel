@@ -10,12 +10,12 @@
         "strict": true,
         "target": "es6",
         "outDir": "./dist",
-        "baseUrl": "./",
+        "baseUrl": "./src",
         "incremental": true,
         "paths": {
-            "@common/*": ["./src/common/*"],
-            "@config/*": ["./src/config/*"],
-            "@modules/*": ["./src/modules/*"]
+            "@common/*": ["./common/*"],
+            "@config/*": ["./config/*"],
+            "@modules/*": ["./modules/*"]
         }
     },
     "exclude": ["node_modules"]

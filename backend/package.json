@@ -15,7 +15,7 @@
         "migration:generate": "npm run typeorm migration:generate -- -n Migration",
         "migration:run": "npm run typeorm migration:run",
         "migration:revert": "npm run typeorm migration:revert",
-        "start:prod": "node dist/main.js",
+        "start:prod": "node -r ./tsconfig-paths.js dist/main.js",
         "lint": "tslint -p tsconfig.json -c tslint.json",
         "test": "jest",
         "test:watch": "jest --watch",

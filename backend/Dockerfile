@@ -9,5 +9,3 @@ COPY . .
 RUN npm run prestart:prod
 
 CMD npm run start:prod
-
-USER node

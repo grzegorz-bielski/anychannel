@@ -1,13 +1,18 @@
 dev-dockerfile = -f docker-compose.staging.yml -f docker-compose.dev.yml
 staging-dockerfile = -f docker-compose.staging.yml
 
+.PHONY: k8
+k8:
+	kubectl create secret generic pgpassword --from-literal PGPASSWORD=$(PGPASSWORD)
+	kubectl apply -f kubernetes
+
 .PHONY: build-dev
 build-dev:
 	docker-compose $(dev-dockerfile) build --parallel
 
 .PHONY: build-staging
 build-staging:
-	docker-compose $(staging-dockerfile) build --parallel
+	docker-compose $(staging-dockerfile) build --no-cache --parallel
 
 .PHONY: rebuild-dev
 rebuild-dev:
