@@ -6,7 +6,7 @@ const App: React.FC = () => {
   const [state, setState] = useState("nope");
 
   useEffect(() => {
-    fetch("http://localhost:3030/api/users")
+    fetch("./api/users")
       .then(res => res.json())
       .then(value => setState(value))
       .catch(err => {
