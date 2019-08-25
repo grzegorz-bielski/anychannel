@@ -4,7 +4,7 @@ const env = (val: string) => process.env[val] || '';
 
 const isProd = env('NODE_ENV') === 'prod';
 const extension = isProd ? 'js' : 'ts';
-const folder = isProd ? 'build' : 'src';
+const folder = isProd ? 'dist' : 'src';
 
 export const dbConfig: TypeOrmModuleOptions = {
     type: 'postgres',
@@ -17,7 +17,7 @@ export const dbConfig: TypeOrmModuleOptions = {
     migrationsRun: true,
     logging: false,
     entities: [`${folder}/**/*.entity.${extension}`],
-    migrations: [`${folder}/**/migrations/**/*.${extension}`],
+    migrations: [`${folder}/**/migration/**/*.${extension}`],
     subscribers: [`${folder}/**/*.subscriber.${extension}`],
     cli: {
         entitiesDir: `${folder}/entity`,

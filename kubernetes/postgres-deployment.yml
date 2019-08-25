@@ -6,7 +6,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      component:  postgres
+      component: postgres
   template:
     metadata:
       labels:
@@ -23,11 +23,11 @@ spec:
             - containerPort: 5432
           volumeMounts:
             - name: postgress-storage
-              mountPath: '/var/lib/postgresql/data'
-              subPath: 'postgress'
+              mountPath: /var/lib/postgresql/data
+              subPath: postgress
           env:
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                    name: pgpassword
-                    key: PGPASSWORD
+                  name: pgpassword
+                  key: PGPASSWORD
