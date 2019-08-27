@@ -48,3 +48,8 @@ helm init --service-account tiller --upgrade
 ```zsh
 helm install stable/nginx-ingress --name my-nginx --set rbac.create=true
 ```
+
+TODO
+
+- fix migrations setup -> ormconfig.js, "typeorm migration:generate -n CreateDatabase"
+- test k8 build

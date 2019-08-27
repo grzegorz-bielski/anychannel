@@ -8,7 +8,7 @@ const App: React.FC = () => {
   useEffect(() => {
     fetch("./api/users")
       .then(res => res.json())
-      .then(value => setState(value))
+      .then(value => setState(JSON.stringify(value)))
       .catch(err => {
         !(err instanceof SyntaxError) && setState(JSON.stringify(err));
       });
