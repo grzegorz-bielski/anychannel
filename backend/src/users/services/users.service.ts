@@ -30,7 +30,7 @@ export class UsersService {
 
     create: (a: User) => Observable<UserEntity> = R.compose(
         from,
-        this.usersRepository.save,
+        (a: User) => this.usersRepository.save(a),
         R.merge(new UserEntity()),
     );
 }

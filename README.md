@@ -43,13 +43,12 @@ kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admi
 helm init --service-account tiller --upgrade
 ```
 
-#### Install Ingress-Nginx
+#### Install ingress-nginx chart
 
 ```zsh
 helm install stable/nginx-ingress --name my-nginx --set rbac.create=true
 ```
 
-TODO
+#### Install cert-manager chart
 
-- fix migrations setup -> ormconfig.js, "typeorm migration:generate -n CreateDatabase"
-- test k8 build
+- check steps at [docs](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
