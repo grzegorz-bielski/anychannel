@@ -5,9 +5,28 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    certmanager.k8s.io/cluster-issuer: "letsenrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
+  tls:
+    - hosts:
+        - anychannel.tk
+        - www.anychannel.tk
+      secretName: anychannel-tk
   rules:
-    - http:
+    - host: anychannel.tk
+      http:
+        paths:
+          - path: /?(.*)
+            backend:
+              serviceName: frontend-cluster-ip-service
+              servicePort: 3000
+          - path: /api/?(.*)
+            backend:
+              serviceName: backend-cluster-ip-service
+              servicePort: 8000
+    - host: www.anychannel.tk
+      http:
         paths:
           - path: /?(.*)
             backend:
