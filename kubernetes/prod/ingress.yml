@@ -36,3 +36,38 @@ spec:
             backend:
               serviceName: backend-cluster-ip-service
               servicePort: 8000
+
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: anychannel-tk-tls
+spec:
+  secretName: anychannel-tk
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: anychannel.tk
+  dnsNames:
+    - anychannel.tk
+    - www.anychannel.tk
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - anychannel.tk
+          - www.anychannel.tk
+
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: "pesiok@gmail.com"
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    http01: {}

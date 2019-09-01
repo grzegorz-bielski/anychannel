@@ -9,6 +9,6 @@ docker push pesiok/anychan-backend:latest
 docker push pesiok/anychan-backend:$GIT_SHA
 
 # update k8 and use newest images
-kubectl apply -f kubernetes
+kubectl apply -f kubernetes/prod
 kubectl set image deployments/backend-deployment backend=pesiok/anychan-backend:$GIT_SHA
 kubectl set image deployments/frontend-deployment frontend=pesiok/anychan-frontend:$GIT_SHA

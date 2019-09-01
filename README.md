@@ -1,8 +1,31 @@
 ### anychannel
 
-test project
+a test project
 
-## Provisioning on Google Cloud (GKE)
+## Development
+
+#### Prerequisites
+
+1. [Make](https://www.gnu.org/software/make/)
+1. [Docker](https://www.docker.com/)
+1. [Kubernetes](https://kubernetes.io/docs/setup/) and ([kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/))
+1. [Skaffold](https://skaffold.dev)
+1. setting up [ingress-nginx](https://kubernetes.github.io/ingress-nginx/deploy/)
+1. setting up database:
+
+```zsh
+kubectl apply -f ./kubernetes/prod/postgres.yml
+```
+
+#### Running the project
+
+1. run the app:
+
+```zsh
+make dev
+```
+
+## Provisioning on Google Cloud (GKE) with Travis-CI
 
 #### Setting up Travis CI with service account credentials
 

@@ -1,4 +1,5 @@
-import { Get, Post, Controller, Body } from '@nestjs/common';
+import { Get, Post, Controller, Body, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { Observable } from 'rxjs';
 
 import { UsersService } from '../services/users.service';
@@ -16,6 +17,7 @@ export class UsersController {
 
     @Post('/signup')
     signUp(@Body() user: User): Observable<UserEntity> {
+        // console.log(request.body);
         return this.usersService.create(user);
     }
 }

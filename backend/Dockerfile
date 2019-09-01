@@ -1,5 +1,6 @@
 FROM node:carbon
 
+ENV NODE_ENV prod
 WORKDIR /backend
 
 COPY package*.json ./

@@ -1,0 +1,30 @@
+apiVersion: skaffold/v1beta13
+kind: Config
+build:
+  local:
+    push: false
+  artifacts:
+    - image: pesiok/anychan-frontend
+      context: frontend
+      docker:
+        dockerfile: dev.Dockerfile
+      sync:
+        infer:
+          - "**/*.{js,jsx,ts,tsx, css, scss, html}"
+          - "**/*.{js,jsx,ts,tsx}"
+          - "**/*.{css,scss}"
+          - "**/*.html"
+    - image: pesiok/anychan-backend
+      context: backend
+      docker:
+        dockerfile: dev.Dockerfile
+      sync:
+        infer:
+          - "**/*.{js,jsx,ts,tsx}"
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes/dev/ingress.yml
+      - kubernetes/prod/frontend.yml
+      - kubernetes/prod/backend.yml
+      # - kubernetes/prod/postgres.yml
